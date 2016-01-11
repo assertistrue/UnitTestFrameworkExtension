@@ -36,6 +36,8 @@ namespace UnitTestFrameworkExtension
             }
             catch (T expectedEx)
             {
+                // verify the thrown exception expectedEx with Functor validator if exists
+                // If functor validator returns false, fails the assertion by throwing InvalidExceptionThrownException
                 if (IsExceptionValid != null && !IsExceptionValid(expectedEx))
                     UnitTestException = new InvalidExceptionThrownException() { exceptionThrown = expectedEx, InvalidReason = ExceptionInvalidReason.ExceptionValidationFailed };
 
@@ -43,6 +45,7 @@ namespace UnitTestFrameworkExtension
             }
             catch (Exception otherEx)
             {
+                // catch all as an unexpected exception is encountered
                 UnitTestException = new InvalidExceptionThrownException() { exceptionThrown = otherEx, InvalidReason = ExceptionInvalidReason.ExceptionTypeMismatch };
             }
 
